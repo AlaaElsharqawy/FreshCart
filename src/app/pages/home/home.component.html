@@ -1,0 +1,171 @@
+<section class="mb-[100px]">
+  <div class="grid md:grid-cols-[70%_30%]">
+    <div>
+      <owl-carousel-o [options]="customMainSlider">
+        <ng-template carouselSlide>
+          <img
+            src="/images/img1.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+        <ng-template carouselSlide>
+          <img
+            src="/images/img2.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+        <ng-template carouselSlide>
+          <img
+            src="/images/img3.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+        <ng-template carouselSlide>
+          <img
+            src="/images/img4.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+
+        <ng-template carouselSlide>
+          <img
+            src="/images/img5.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+
+        <ng-template carouselSlide>
+          <img
+            src="/images/img6.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+
+        <ng-template carouselSlide>
+          <img
+            src="/images/img7.avif"
+            class="w-full h-[300px]"
+            alt="Not Found Image"
+          />
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+    <div>
+      <img
+        src="/images/grocery-banner.png"
+        class="w-full h-[150px]"
+        alt="Not Found Image"
+      />
+      <img
+        src="/images/grocery-banner-2.jpeg"
+        class="w-full h-[150px]"
+        alt="Not Found Image"
+      />
+    </div>
+  </div>
+</section>
+
+<section class="mb-[100px]">
+  <h2 class="text-4xl mb-3 text-green-500">Popular Categories</h2>
+
+  <owl-carousel-o [options]="customOptions">
+    @for (category of categories(); track category._id) {
+
+    <ng-template carouselSlide>
+      <img
+        [src]="category.image"
+        class="w-[250px] h-[250px]"
+        [alt]="category.name"
+      />
+      <h3 class="text-green-500 mt-3">{{ category.name }}</h3>
+    </ng-template>
+    }
+  </owl-carousel-o>
+</section>
+
+<section class="mb-[100px]">
+  <h2 class="text-4xl mb-3 text-green-500">Popular Products</h2>
+
+  <div class="w-1/2 mx-auto bg-gray-50 p-4 rounded border-2 shadow mb-7">
+    <input
+      [(ngModel)]="text"
+      type="search"
+      placeholder="search by Name ....."
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-700 dark:border-green-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+    />
+  </div>
+
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+    @for (product of products().slice(0,12) | search : text ; track product.id)
+    {
+
+    <div
+      class="card border border-green-400/50 rounded-md overflow-hidden shadow relative"
+    >
+      <div>
+        <div class="card-img" [routerLink]="['/details', product.id]">
+          <img
+            [src]="product.imageCover"
+            class="w-full h-[250px] object-contain"
+            [alt]="product.title"
+          />
+        </div>
+
+        <div class="card-body px-2 py-4">
+          <div class="flex items-center justify-between mb-2">
+            <div [routerLink]="['/details', product.id]">
+              <h4 class="text-green-500 text-xs">
+                {{ product.category.name }}
+              </h4>
+              <h3 class="text-lg">
+                {{ product.title | termtext : 2 }}
+              </h3>
+            </div>
+
+            <button
+              class="focus:text-red-500"
+              (click)="toggleWishlist(product.id)"
+            >
+              <i
+                [class]="
+                  wishlist().has(product._id)
+                    ? 'fas fa-heart text-red-600'
+                    : 'far fa-heart text-black'
+                "
+                class="fas fa-heart text-2xl"
+              ></i>
+            </button>
+          </div>
+
+          <div
+            class="flex justify-between items-center"
+            [routerLink]="['/details', product.id]"
+          >
+            <span class="text-gray-500">{{ product.price }} EGP</span>
+
+            <div class="flex items-center">
+              <i class="fas fa-star text-yellow-300"></i>
+              <span class="text-gray-500">{{ product.ratingsAverage }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        (click)="addToCart(product.id)"
+        class="bg-[var(--main-color)] text-white py-2 px-10 border rounded w-[90%] mx-auto block"
+      >
+        Add To Cart
+        <i class="fas fa-cart-shopping"></i>
+      </button>
+    </div>
+
+    }
+  </div>
+</section>

@@ -1,0 +1,53 @@
+@if(count()>0){
+<section class="main-sec w-[75%] mx-auto">
+  <h1 class="text-4xl mb-5 text-green-500 text-center">My Wish List</h1>
+
+  @for (item of wishlistDetails(); track item._id) {
+
+  <div class="grid md:grid-cols-[10%_minmax(0,1fr)] my-4 border p-5">
+    <!-- image -->
+    <div>
+      <img
+        [src]="item.imageCover"
+        class="w-full object-contain"
+        [alt]="item.title"
+      />
+    </div>
+
+    <!-- info -->
+    <div class="flex justify-between items-center">
+      <!-- info -->
+      <div class="m-5">
+        <h3 class="text-xl text-main">{{ item.title }}</h3>
+        <h4 class="mb-3 mt-2 text-gray-600">
+          <span class="text-black">Price :</span>
+          {{ item.price | currency : "GBP" }}
+        </h4>
+        <button (click)="removeItemFromWishlist(item._id)" class="text-red-600">
+          <i class="fas fa-trash-can"></i> remove
+        </button>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button
+          (click)="addToCart(item._id)"
+          class="py-2 px-7 text-black rounded border border-green-500 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all duration-75"
+        >
+          Add To Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  }
+</section>
+} @else {
+
+<section class="main-sec w-[75%] mx-auto min-h-[300px]">
+  <h1 class="text-4xl mb-5 text-green-500 text-center">Wish List</h1>
+
+  <div class="flex justify-center items-center mt-20">
+    <h2 class="text-4xl">Not Found Products</h2>
+  </div>
+</section>
+}

@@ -1,0 +1,89 @@
+@if(cartDetails.totalCartPrice){
+<section class="main-sec w-[75%] mx-auto">
+  <h1 class="text-4xl mb-5 text-green-500 text-center">Shop Cart</h1>
+
+  <div class="flex justify-between items-center">
+    <span class="text-main text-2xl"
+      >Total Cart Price :
+      <span class="text-gray-600">{{
+        cartDetails.totalCartPrice | currency : "GBP"
+      }}</span></span
+    >
+
+    <button
+      (click)="clearCart()"
+      class="py-2 px-7 text-black rounded border border-green-500 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all duration-75"
+    >
+      Clear Your Cart @if (isLoding) {
+      <span><i class="fas fa-spin fa-spinner ms-2"></i></span>
+      }
+    </button>
+  </div>
+
+  @for (item of cartDetails.products; track item.product._id) {
+
+  <div class="grid md:grid-cols-[10%_minmax(0,1fr)] my-4 border p-5">
+    <!-- image -->
+    <div>
+      <img
+        [src]="item.product.imageCover"
+        class="w-full object-contain"
+        [alt]="item.product.title"
+      />
+    </div>
+
+    <!-- info -->
+    <div class="flex justify-between items-center">
+      <!-- info -->
+      <div class="m-5">
+        <h3 class="text-xl text-main">{{ item.product.title }}</h3>
+        <h4 class="mb-3 mt-2 text-gray-600">
+          <span class="text-black">Price :</span>
+          {{ item.price | currency : "GBP" }}
+        </h4>
+        <button (click)="removeProduct(item.product._id)" class="text-red-600">
+          <i class="fas fa-trash-can"></i> remove
+        </button>
+      </div>
+
+      <!-- btns -->
+      <div class="flex justify-between items-center gap-2">
+        <button
+          (click)="updateCount(item.product._id, item.count + 1)"
+          class="text-main text-2xl"
+        >
+          <i class="fa-regular fa-square-plus"></i>
+        </button>
+        <span>{{ item.count }}</span>
+        <button
+          (click)="updateCount(item.product._id, item.count - 1)"
+          class="text-main text-2xl"
+        >
+          <i class="fa-regular fa-square-minus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  }
+
+  <button
+    [routerLink]="['/checkout', cartDetails._id]"
+    type="submit"
+    class="btn-main block mt-3 mx-auto"
+  >
+    Check Out @if (isLoding) {
+    <span><i class="fas fa-spin fa-spinner"></i></span>
+    }
+  </button>
+</section>
+} @else {
+
+<section class="main-sec w-[75%] mx-auto min-h-[300px]">
+  <h1 class="text-4xl mb-5 text-green-500 text-center">Shop Cart</h1>
+
+  <div class="flex justify-center items-center mt-20">
+    <h2 class="text-4xl">Not Found Products</h2>
+  </div>
+</section>
+}

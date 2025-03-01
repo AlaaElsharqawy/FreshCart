@@ -1,0 +1,66 @@
+@if(detailsProduct()){
+<section>
+  <h1 class="text-4xl mb-3 text-green-500 text-center">
+    Details detailsProduct
+  </h1>
+
+  <div class="grid md:grid-cols-[30%_60%] items-center gap-10">
+    <div>
+      <owl-carousel-o [options]="detailSliderOptions">
+        @for (image of detailsProduct()!.images; track $index) {
+
+        <ng-template carouselSlide>
+          <img [src]="image" class="w-full" [alt]="detailsProduct()!.title" />
+        </ng-template>
+        }
+      </owl-carousel-o>
+    </div>
+
+    <div>
+      <h2 class="text-2xl py-5">{{ detailsProduct()!.title }}</h2>
+      <p class="text-muted text-gray-400 py-3">
+        {{ detailsProduct()!.description }}
+      </p>
+      <h3 class="py-3">{{ detailsProduct()!.category.name }}</h3>
+
+      <div class="flex justify-between items-center py-3">
+        <span class="text-gray-500">{{ detailsProduct()!.price }} EGP</span>
+
+        <div class="flex items-center">
+          @if(detailsProduct()!.ratingsAverage%1!==0){
+          <i class="fa-solid fa-star-half-stroke rating-color"></i>
+          }
+
+          <!-- <i class="fas fa-star text-yellow-300"></i> -->
+          <span class="text-gray-500">{{
+            detailsProduct()!.ratingsAverage
+          }}</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center mt-5">
+        <button
+          (click)="addToCart(detailsProduct()!._id)"
+          class="bg-[var(--main-color)] text-white py-2 px-10 border rounded w-[70%] block"
+        >
+          Add To Cart
+        </button>
+
+        <button
+          class="focus:text-red-500"
+          (click)="toggleWishlist(detailsProduct()!._id)"
+        >
+          <i
+            [class]="
+              wishlist().has(detailsProduct()!._id)
+                ? 'fas fa-heart text-red-600'
+                : 'far fa-heart text-black'
+            "
+            class="fas fa-heart text-3xl"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+}

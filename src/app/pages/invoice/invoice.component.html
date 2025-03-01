@@ -1,0 +1,83 @@
+<section class="w-1/2 mx-auto bg-gray-50 p-4 rounded border-2 shadow">
+  <h1 class="text-4xl text-center font-light text-green-800 mb-4">Invoice</h1>
+  <!-- بيانات الفاتورة بعد تحميلها -->
+  <ng-container *ngIf="invoiceDetails as invoice">
+    <div class="border-b pb-3 mb-4">
+      <p class="text-gray-600">
+        <strong class="text-green-500">Invoice ID:</strong> {{ invoice._id }}
+      </p>
+      <p class="text-gray-600">
+        <strong class="text-green-500">Date:</strong> {{ invoice.createdAt }}
+      </p>
+    </div>
+
+    <div class="mb-4 border-b-2">
+      <h3 class="text-xl font-bold text-green-800 mb-6">Shipping Address</h3>
+      <p class="text-gray-600">
+        <strong class="text-green-500">Details:</strong>
+        {{ invoice.shippingAddress.details }}
+      </p>
+      <p class="text-gray-600">
+        <strong class="text-green-500">City:</strong>
+        {{ invoice.shippingAddress.city }}
+      </p>
+      <p class="text-gray-600 mb-3">
+        <strong class="text-green-500">Phone:</strong>
+        {{ invoice.shippingAddress.phone }}
+      </p>
+    </div>
+
+    <div class="mb-4 border-b-2">
+      <h3 class="text-lg font-bold text-green-800 my-6">Order Details</h3>
+      <table class="w-full border border-gray-200 my-10">
+        <thead>
+          <tr class="bg-green-400">
+            <th class="py-2 px-4 border">Product ID</th>
+            <th class="py-2 px-4 border">Quantity</th>
+            <th class="py-2 px-4 border">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of invoice.cartItems" class="text-center">
+            <td class="py-2 px-4 border">{{ item.product }}</td>
+            <td class="py-2 px-4 border">{{ item.count }}</td>
+            <td class="py-2 px-4 border">{{ item.price }} EGP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex justify-between items-center bg-gray-100 p-4 rounded-md">
+      <p class="text-gray-700">
+        <strong class="text-green-800">Subtotal:</strong>
+        {{ invoice.totalOrderPrice }} EGP
+      </p>
+      <p class="text-gray-700">
+        <strong class="text-green-800">Tax:</strong> {{ invoice.taxPrice }} EGP
+      </p>
+      <p class="text-gray-700">
+        <strong class="text-green-800">Shipping:</strong>
+        {{ invoice.shippingPrice }} EGP
+      </p>
+      <p class="text-gray-800 text-lg font-bold">
+        <strong class="text-green-800">Total:</strong>
+        {{ invoice.totalOrderPrice }} EGP
+      </p>
+    </div>
+
+    <div class="m-4">
+      <p class="text-gray-700">
+        <strong class="text-green-800">Payment Method:</strong>
+        {{ invoice.paymentMethodType }}
+      </p>
+      <p class="text-gray-700">
+        <strong class="text-green-800">Paid:</strong>
+        {{ invoice.isPaid ? "Yes" : "No" }}
+      </p>
+      <p class="text-gray-700">
+        <strong class="text-green-800">Delivered:</strong>
+        {{ invoice.isDelivered ? "Yes" : "No" }}
+      </p>
+    </div>
+  </ng-container>
+</section>
